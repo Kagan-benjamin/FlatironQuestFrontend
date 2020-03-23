@@ -29,13 +29,13 @@ class StartScreen extends React.Component {
                     Begin Your Corona Quest!
                     <br></br>
                         <button onClick={this.showInstructions}>
-                            Instructions!
+                            Instructions
                         </button>
                     <div>
                     {this.state.instructions ?       
                             
-                            "How to Play : Move your character around the map to discover hidden treasures but be wary of the corona out to get you!" +
-                            
+                            "How to Play: Move your character around the map to discover hidden treasures, but be wary of the Corona out to get you!" +
+                            "    " + 
                             "a - to move left" +
                             "d - to move right " +
                            " w - to move up" +

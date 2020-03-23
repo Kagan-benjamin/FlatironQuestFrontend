@@ -1,10 +1,12 @@
 import React from 'react';
 import StartScreen from './StartScreen'
 import Login from './Login'
-import ScoreBoard from './ScoreBoard'
+import ScoreBoard from './Scoreboard'
 import Game from './Game'
 import SignupPage from './SignupPage'
-import { Route, Switch } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
+import history from './history';
+
 
 
 class App extends React.Component {
@@ -17,6 +19,7 @@ class App extends React.Component {
           name: "", 
           strength: 10, 
           hp: 100,
+          mana: 0,
           score: 0, 
           user_id: 1, 
       },
@@ -115,10 +118,7 @@ class App extends React.Component {
             
     
     })
-
-    
-
-    
+   history.push('/scoreboard')
 }
 
   render(){
@@ -126,19 +126,21 @@ class App extends React.Component {
     return (
    
       <div className="App">
+        <Router history={history}>
          <Switch>
             <Route exact path="/" component={Login} /> 
             <Route exact path="/startscreen" 
-            render={(props) => <StartScreen {...props} characterForm={this.state.     characterForm} createNewCharacter={this.createNewCharacter} handleNewCharacter={this.handleNewCharacter}/>}
+            render={(props) => <StartScreen {...props} characterForm={this.state.characterForm} createNewCharacter={this.createNewCharacter} handleNewCharacter={this.handleNewCharacter}/>}
             />
             <Route exact path="/game" 
-            render={(props) => <Game {...props} characterName={this.state.characterForm.name} finishGame={this.finishGame} points={this.state.points} />}
+            render={(props) => <Game {...props} characterName={this.state.characterForm.name} characterForm={this.state.characterForm} finishGame={this.finishGame} points={this.state.points} />}
             />
             <Route exact path="/scoreboard" 
              render={(props) => <ScoreBoard {...props} highScores={this.state.highScores} characterForm={this.state.characterForm} />}
             />
             <Route exact path="/signuppage" component={SignupPage} />
         </Switch> 
+        </Router>
       </div>
      
     );

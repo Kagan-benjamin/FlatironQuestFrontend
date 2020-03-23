@@ -5,6 +5,7 @@ import NavBar from './NavBar';
 
 class ScoreBoard extends React.Component {
 
+
     render(){
         return (
             <div className="Scoreboard">
