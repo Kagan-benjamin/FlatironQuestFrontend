@@ -1,5 +1,4 @@
-
-const obstaclesList = [ 
+const treesList = [ 
     {x: 0, y: 0}, 
     {x: 0, y: 2}, 
     {x: 0, y: 3}, 
@@ -60,4 +59,4 @@ const obstaclesList = [
     {x: 10, y: 9}, 
     {x: 10, y: 10}
 ]
-export default obstaclesList;
+export default treesList;

@@ -1,7 +1,7 @@
 .Board {
     position: relative;
     margin: 0 auto;
-    background-color: #000;
+    background-color: #ccc;
     background-image:
         linear-gradient(#333 1px, transparent 1px),
         linear-gradient(90deg, #333 1px, transparent 1px);
@@ -54,22 +54,41 @@
 }
 
 .Cell {
-    background: #ccc;
+    background-image: url("../doctor.png");
+    background-color: #ccc;
     position: absolute;
+    background-position: right bottom;
 }
 
 .Exit {
-    background: purple;
+    background-image: url("../portal.jpg");
+    background-color: #ccc;
     position: absolute;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-.Obstacle {
-    background: green;
+.Rock {
+    background-image: url("../rock.jpg");
+    background-color: #ccc;
+    position: absolute;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.Tree {
+    background-image: url("../treesprite.png");
+    background-repeat: no-repeat;
+    background-color: #ccc;
+    background-position: right;
     position: absolute;
 }
 
 .Treasure {
-    background: brown;
+    background-image: url("../chest.png");
+    background-repeat: no-repeat;
+    background-color: #ccc;
+    background-position:  bottom;
     position: absolute;
 }
 

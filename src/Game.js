@@ -1,14 +1,18 @@
 import React from 'react';
 import Cell from './components/Cell.js'
-import Obstacle from './components/Obstacle.js'
+import Tree from './components/Tree.js'
+import Rock from  './components/Rock.js'
 import Treasure from './components/Treasure.js'
 import Exit from './components/Exit.js'
 import './styling/Game.css';
-import obstaclesList from './resources/obstaclesList.js'
+import treesList from './resources/treesList.js'
+import rocksList from './resources/rocksList.js'
 import treasuresList from './resources/treasuresList.js'
 import exitsList from './resources/exitsList.js'
 import NavBar from './NavBar.js';
 import { Link} from "react-router-dom";
+
+
 
 
 // Specs for map + grid size, values below for wireframe map size
@@ -29,7 +33,8 @@ class Game extends React.Component {
     state = {
         cells: [ {x: 5, y: 5} ],  // Player Character starting location  // REMOVE ARRAY
         points: 0,
-        obstacles: obstaclesList,  // Obstacle locations imported 
+        obstacles: treesList,  // Obstacle locations imported 
+        rocks: rocksList,
         treasures: treasuresList, 
         exits: exitsList, //    from resources folder    
         characterName: ''
@@ -406,7 +411,7 @@ class Game extends React.Component {
 
     render() {
         
-        const { cells, obstacles, treasures, exits } = this.state;
+        const { cells, obstacles, rocks, treasures, exits } = this.state;
         let div = document.getElementById("Board")
         
         console.log(this.state.points)
@@ -434,8 +439,11 @@ class Game extends React.Component {
                     style={{ width: WIDTH, height: HEIGHT, backgroundSize: `${CELL_SIZE}px ${CELL_SIZE}px`}}
                     ref={(n) => { this.boardRef = n; }}>
                     {obstacles.map(obstacle => (
-                        <Obstacle x={obstacle.x} y={obstacle.y} key={`${obstacle.x},${obstacle.y}`}/>
-                    ))}        
+                        <Tree x={obstacle.x} y={obstacle.y} key={`${obstacle.x},${obstacle.y}`}/>
+                    ))}    
+                     {rocks.map(rock => (
+                        <Rock x={rock.x} y={rock.y} key={`${rock.x},${rock.y}`}/>
+                    ))}     
                     {cells.map(cell => (
                         <Cell x={cell.x} y={cell.y} key={`${cell.x},${cell.y}`}/>
                         

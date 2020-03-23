@@ -1,23 +1,19 @@
 import React from 'react';
 
+const CELL_SIZE = 45;
 
-const CELL_SIZE = 45; 
-
-class Cell extends React.Component {
+class Tree extends React.Component {
 
     render() {
         const { x, y } = this.props;
         return (
-            <div className="Cell" style={{
+            <div className="Tree" style={{
                 left: `${CELL_SIZE * x + 1}px`,
                 top: `${CELL_SIZE * y + 1}px`,
                 width: `${CELL_SIZE - 1}px`,
                 height: `${CELL_SIZE - 1}px`,
-                }} 
-            >
-                {/* <img src={doctor} alt="doctor"></img> */}
-            </div>
+            }} />
         );
     }
-} 
-export default Cell 
+}
+export default Tree
