@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const CELL_SIZE = 45; 
 
 class Cell extends React.Component {
@@ -13,9 +12,7 @@ class Cell extends React.Component {
                 top: `${CELL_SIZE * y + 1}px`,
                 width: `${CELL_SIZE - 1}px`,
                 height: `${CELL_SIZE - 1}px`,
-                }} 
-            >
-                {/* <img src={doctor} alt="doctor"></img> */}
+                }}>
             </div>
         );
     }

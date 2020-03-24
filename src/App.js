@@ -7,8 +7,6 @@ import SignupPage from './SignupPage'
 import { Router, Route, Switch } from "react-router-dom";
 import history from './history';
 
-
-
 class App extends React.Component {
 
     state = {
@@ -30,7 +28,6 @@ class App extends React.Component {
       fetch('http://localhost:3000/characters')
       .then(resp => resp.json())
       .then(characters => {
-        console.log(characters)
           this.setState({
               characters: characters,
               highScores: characters.sort((a,b) => a.score > b.score ? 1 : -1).reverse().splice(1, 10)

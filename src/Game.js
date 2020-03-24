@@ -10,7 +10,7 @@ import rocksList from './resources/rocksList.js'
 import treasuresList from './resources/treasuresList.js'
 import exitsList from './resources/exitsList.js'
 import NavBar from './NavBar.js';
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 
@@ -33,10 +33,10 @@ class Game extends React.Component {
     state = {
         cells: [ {x: 5, y: 5} ],  // Player Character starting location  // REMOVE ARRAY
         points: 0,
-        obstacles: treesList,  // Obstacle locations imported 
+        obstacles: treesList,  
         rocks: rocksList,
         treasures: treasuresList, 
-        exits: exitsList, //    from resources folder    
+        exits: exitsList,  
         characterName: ''
     }
     // sets current character form 
@@ -101,15 +101,25 @@ class Game extends React.Component {
     detectUpObstacles = () => {
         let emptyObstacles = [];
         let emptyTreasures = [];
-        this.state.obstacles.forEach((obstacle) => {
+        let emptyRocks = [];
+        let rocksList = this.state.rocks
+        let obstaclesList = this.state.obstacles
+        obstaclesList.forEach((obstacle) => {
             if (obstacle.x === this.state.cells[0].x && obstacle.y === this.state.cells[0].y - 1) {
-          //      console.log("You hit an obstacle up")
                 return true
             } else {
                 emptyObstacles.push(obstacle)           
             }
         })
-        if (emptyObstacles.length > 58) {
+        rocksList.forEach((rock) => {
+            if (rock.x === this.state.cells[0].x && rock.y === this.state.cells[0].y - 1) {
+                console.log("you hit a rock up")
+                return true
+            } else {
+                emptyRocks.push(rock)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4) {
             this.moveSquareUp()
         }
         this.state.treasures.forEach((treasure) => {
@@ -128,15 +138,24 @@ class Game extends React.Component {
     detectDownObstacles = () => {
         let emptyObstacles = [];
         let emptyTreasures = [];
+        let emptyRocks = [];
+        let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x && obstacle.y === this.state.cells[0].y + 1) {
-            //   console.log("You hit an obstacle down")
               return true
            } else {
             emptyObstacles.push(obstacle)           
            }
         })
-        if (emptyObstacles.length > 58) {
+        rocksList.forEach((rock) => {
+            if (rock.x === this.state.cells[0].x && rock.y === this.state.cells[0].y + 1) {
+                console.log("you hit a rock down")
+                return true
+            } else {
+                emptyRocks.push(rock)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4) {
             this.moveSquareDown()
         }
         this.state.treasures.forEach((treasure) => {
@@ -152,7 +171,6 @@ class Game extends React.Component {
         this.setState({ treasures: emptyTreasures })
         this.state.exits.forEach((exit) => {
             if (exit.x === this.state.cells[0].x && exit.y === this.state.cells[0].y + 1) {
-                console.log('You hit the exit down')
                 this.props.finishGame(this.state.points)
             }
         })
@@ -161,6 +179,8 @@ class Game extends React.Component {
     detectLeftObstacles = () => {
         let emptyObstacles = [];
         let emptyTreasures = [];
+        let emptyRocks = [];
+        let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x - 1 && obstacle.y === this.state.cells[0].y) {
             //   console.log("You hit an obstacle left")
@@ -169,7 +189,15 @@ class Game extends React.Component {
             emptyObstacles.push(obstacle)           
            }
         })
-        if (emptyObstacles.length > 58) {
+        rocksList.forEach((rock) => {
+            if (rock.x === this.state.cells[0].x - 1 && rock.y === this.state.cells[0].y) {
+                console.log("you hit a rock left")
+                return true
+            } else {
+                emptyRocks.push(rock)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4) {
             this.moveSquareLeft()
         }
         this.state.treasures.forEach((treasure) => {
@@ -188,6 +216,8 @@ class Game extends React.Component {
     detectRightObstacles = () => {
         let emptyObstacles = [];
         let emptyTreasures = [];
+        let emptyRocks = [];
+        let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x + 1 && obstacle.y === this.state.cells[0].y) {
             //   console.log("You hit an obstacle right")
@@ -196,7 +226,15 @@ class Game extends React.Component {
             emptyObstacles.push(obstacle)           
            }
         })
-        if (emptyObstacles.length > 58) {
+        rocksList.forEach((rock) => {
+            if (rock.x === this.state.cells[0].x + 1 && rock.y === this.state.cells[0].y) {
+                console.log("you hit a rock right")
+                return true
+            } else {
+                emptyRocks.push(rock)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4) {
             this.moveSquareRight()
         }
         this.state.treasures.forEach((treasure) => {
@@ -212,7 +250,6 @@ class Game extends React.Component {
         this.setState({ treasures: emptyTreasures })
         this.state.exits.forEach((exit) => {
             if (exit.x === this.state.cells[0].x + 1 && exit.y === this.state.cells[0].y) {
-                console.log('You hit the exit down')
                 this.props.finishGame(this.state.points)
             }
         })
@@ -224,15 +261,24 @@ class Game extends React.Component {
     detectDiagUpLeftObstacles = () => {
         let emptyObstacles = [];
         let emptyTreasures = [];
+        let emptyRocks = [];
+        let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x - 1 && obstacle.y === this.state.cells[0].y - 1) {
-            //   console.log("You hit an obstacle in the diagonal up left corner")
               return true
            } else {
             emptyObstacles.push(obstacle)           
            }
         })
-        if (emptyObstacles.length > 58) {
+        rocksList.forEach((rock) => {
+            if (rock.x === this.state.cells[0].x - 1 && rock.y === this.state.cells[0].y - 1) {
+                console.log("you hit a rock diag up left")
+                return true
+            } else {
+                emptyRocks.push(rock)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4) {
             this.moveSquareDiagUpLeft()
         }
         this.state.treasures.forEach((treasure) => {
@@ -251,15 +297,24 @@ class Game extends React.Component {
     detectDiagUpRightObstacles = () => {
         let emptyObstacles = [];
         let emptyTreasures = [];
+        let emptyRocks = [];
+        let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x + 1 && obstacle.y === this.state.cells[0].y - 1) {
-            //   console.log("You hit an obstacle in the diagonal up right corner")
               return true
            } else {
             emptyObstacles.push(obstacle)           
            }
         })
-        if (emptyObstacles.length > 58) {
+        rocksList.forEach((rock) => {
+            if (rock.x === this.state.cells[0].x + 1 && rock.y === this.state.cells[0].y - 1) {
+                console.log("you hit a rock diag up right")
+                return true
+            } else {
+                emptyRocks.push(rock)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4) {
             this.moveSquareDiagUpRight()
         }
         this.state.treasures.forEach((treasure) => {
@@ -278,15 +333,24 @@ class Game extends React.Component {
     detectDiagDownLeftObstacles = () => {
         let emptyObstacles = [];
         let emptyTreasures = [];
+        let emptyRocks = [];
+        let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x - 1 && obstacle.y === this.state.cells[0].y + 1) {
-            //   console.log("You hit an obstacle in the diagonal down left corner")
               return true
            } else {
             emptyObstacles.push(obstacle)           
            }
         })
-        if (emptyObstacles.length > 58) {
+        rocksList.forEach((rock) => {
+            if (rock.x === this.state.cells[0].x - 1 && rock.y === this.state.cells[0].y + 1) {
+                console.log("you hit a rock diag down left")
+                return true
+            } else {
+                emptyRocks.push(rock)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4) {
             this.moveSquareDiagDownLeft()
         }
         this.state.treasures.forEach((treasure) => {
@@ -305,6 +369,8 @@ class Game extends React.Component {
     detectDiagDownRightObstacles = () => {
         let emptyObstacles = [];
         let emptyTreasures = [];
+        let emptyRocks = [];
+        let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x + 1 && obstacle.y === this.state.cells[0].y + 1) {
             //   console.log("You hit an obstacle in the diagonal down right corner")
@@ -313,7 +379,15 @@ class Game extends React.Component {
             emptyObstacles.push(obstacle)           
            }
         })
-        if (emptyObstacles.length > 58) {
+        rocksList.forEach((rock) => {
+            if (rock.x === this.state.cells[0].x + 1 && rock.y === this.state.cells[0].y + 1) {
+                console.log("you hit a rock diag down right")
+                return true
+            } else {
+                emptyRocks.push(rock)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4) {
             this.moveSquareDiagDownRight()
         }
         this.state.treasures.forEach((treasure) => {
@@ -340,7 +414,6 @@ class Game extends React.Component {
     handleKeyPress = (e) => {
         e.preventDefault()
         e.persist()
-   //     console.log(e.key)
         let charCoordX = this.state.cells[0].x
         let charCoordY = this.state.cells[0].y
         const direction = e.key 
@@ -349,56 +422,56 @@ class Game extends React.Component {
                 if (charCoordY > 0) {
                     this.detectUpObstacles();
                 } else {
-                    console.log('Barrier Up');
+                    return
                 }
                 break;
             case 'x':                             // DOWN
                 if (charCoordY < 12) {
                     this.detectDownObstacles();
                 } else {
-                    console.log('Barrier Down')
+                    return
                 }
                 break;
             case 'a':                             // LEFT
                 if (charCoordX > 0) {
                     this.detectLeftObstacles()
                 } else {
-                    console.log('Barrier Left')
+                    return
                 }
                 break;
             case 'd':                             // RIGHT
                 if (charCoordX < 10) {
                     this.detectRightObstacles();
                 } else {
-                    console.log('Barrier Right')
+                    return
                 }
                 break;
             case 'q':                             // DIAG UP LEFT
                 if (charCoordX > 0 && charCoordY > 0) {
                     this.detectDiagUpLeftObstacles();
                 } else {
-                    console.log('Barrier Corner')
+                    return
                 }
                 break;
             case 'e':                             // DIAG UP RIGHT
                 if (charCoordX < 10 && charCoordY > 0) {
                     this.detectDiagUpRightObstacles();
                 } else {
-                    console.log('Barrier Corner')
+                    return
                 }
                 break;
             case 'z':                             // DIAG DOWN LEFT
                 if (charCoordX > 0 && charCoordY < 12) {
                     this.detectDiagDownLeftObstacles();
                 } else {
-                    console.log('Barrier Corner')
+                    return
                 }
                 break;
             case 'c':                             // DIAG DOWN RIGHT
                 if (charCoordX < 10 && charCoordY < 12) {
                     this.detectDiagDownRightObstacles();
                 } else {
-                    console.log('Barrier Corner')
+                    return
                 }
                 break;
                 default:
@@ -411,11 +484,7 @@ class Game extends React.Component {
 
     render() {
         
-        const { cells, obstacles, rocks, treasures, exits } = this.state;
-        let div = document.getElementById("Board")
-        
-        console.log(this.state.points)
-        
+        const { cells, obstacles, rocks, treasures, exits } = this.state;  
         return (
             <div>
                 <NavBar/>

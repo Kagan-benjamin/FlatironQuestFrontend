@@ -3,8 +3,6 @@ import NavBar from './NavBar';
 import { Link } from "react-router-dom";
 import {Button} from "grommet";
 
-
-
 function SignupPage() {
     return (
       <div>

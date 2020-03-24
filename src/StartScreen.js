@@ -76,5 +76,4 @@ class StartScreen extends React.Component {
     }
   
 }
-
 export default StartScreen;

@@ -1,6 +1,6 @@
 import React from 'react';
-import Pink_Virus from './Pink_Virus.png';
-import Blue_Virus from './Blue_Virus.png';
+import Pink_Virus from './artwork/Pink_Virus.png';
+import Blue_Virus from './artwork/Blue_Virus.png';
 import styled, { keyframes } from "styled-components"
 
 import { Box, Grommet, Nav, Header } from "grommet";
