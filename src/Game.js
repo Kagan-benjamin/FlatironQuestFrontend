@@ -4,16 +4,15 @@ import Tree from './components/Tree.js'
 import Rock from  './components/Rock.js'
 import Treasure from './components/Treasure.js'
 import Exit from './components/Exit.js'
+import Enemy from './components/Enemy.js'
 import './styling/Game.css';
 import treesList from './resources/treesList.js'
 import rocksList from './resources/rocksList.js'
 import treasuresList from './resources/treasuresList.js'
 import exitsList from './resources/exitsList.js'
+import {enemy1} from './resources/enemyList1.js'
+import {enemy2} from './resources/enemyList1.js'
 import NavBar from './NavBar.js';
-import { Link } from "react-router-dom";
-
-
-
 
 // Specs for map + grid size, values below for wireframe map size
 const CELL_SIZE = 45; // 45
@@ -37,17 +36,29 @@ class Game extends React.Component {
         rocks: rocksList,
         treasures: treasuresList, 
         exits: exitsList,  
-        characterName: ''
+        enemy1: enemy1,
+        enemy2: enemy2,
+        enemy1Loc: 0,
+        enemy2Loc: 0,
+        characterName: '',
+        characterHP: 0,
+        message: ''
     }
     // sets current character form 
     componentDidMount(){
         this.setState({
             characterName: this.props.characterForm.name,
-            points: this.props.points
+            points: this.props.points,
+            characterHP: this.props.characterForm.hp
         })
+        this.interval1 = setInterval(this.startEnemy1, 1250)
+        this.interval2 = setInterval(this.startEnemy2, 1750)
     }
 
-
+    componentWillUnmount(){
+        clearInterval(this.interval1)
+        clearInterval(this.interval2)
+    }
          //  Generates Underlying Grid  //
 
     makeEmptyBoard() {
@@ -60,7 +71,138 @@ class Game extends React.Component {
         }
         return board;
     }
+        // Enemy 1 Behavior //
 
+    enemy1UpRightFirst = () => {
+        this.setState(prevState => ({ enemy1: [ {x: prevState.enemy1[0].x + 1 , y: prevState.enemy1[0].y - 1} ] }), () => {
+            if (this.state.enemy1[0].x === this.state.cells[0].x && this.state.enemy1[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy1Loc: prevState.enemy1Loc + 1}), () => {})
+    }
+
+    enemy1DownLeftFirst = () => {
+        this.setState(prevState => ({ enemy1: [ {x: prevState.enemy1[0].x - 1 , y: prevState.enemy1[0].y + 1} ] }), () => {
+            if (this.state.enemy1[0].x === this.state.cells[0].x && this.state.enemy1[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy1Loc: prevState.enemy1Loc + 1}), () => {})
+    }
+
+    enemy1DownLeftSecond = () => {
+        this.setState(prevState => ({ enemy1: [ {x: prevState.enemy1[0].x - 1 , y: prevState.enemy1[0].y + 1} ] }), () => {
+            if (this.state.enemy1[0].x === this.state.cells[0].x && this.state.enemy1[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy1Loc: prevState.enemy1Loc + 1}), () => {})
+    }
+    
+    enemy1UpRightSecond = () => {
+        this.setState(prevState => ({ enemy1: [ {x: prevState.enemy1[0].x + 1 , y: prevState.enemy1[0].y - 1} ] }), () => {
+            if (this.state.enemy1[0].x === this.state.cells[0].x && this.state.enemy1[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy1Loc: prevState.enemy1Loc - 3}), () => {})
+    }
+
+    startEnemy1 = () => {
+       if (this.state.enemy1Loc === 0) {
+       this.enemy1UpRightFirst()
+        return
+       } if (this.state.enemy1Loc === 1) {
+        this.enemy1DownLeftFirst()
+        return 
+       } if (this.state.enemy1Loc === 2) {
+        this.enemy1DownLeftSecond()
+        return
+       } if (this.state.enemy1Loc === 3) {
+        this.enemy1UpRightSecond()
+        return
+       }
+       else { return }
+    }
+
+         // Enemy 2 Behavior //
+
+    enemy2DownFirst = () => {
+        this.setState(prevState => ({ enemy2: [ {x: prevState.enemy2[0].x , y: prevState.enemy2[0].y + 1} ] }), () => {
+            if (this.state.enemy2[0].x === this.state.cells[0].x && this.state.enemy2[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy2Loc: prevState.enemy2Loc + 1}), () => {})
+    }
+
+    enemy2UpFirst = () => {
+        this.setState(prevState => ({ enemy2: [ {x: prevState.enemy2[0].x , y: prevState.enemy2[0].y - 1} ] }), () => {
+            if (this.state.enemy2[0].x === this.state.cells[0].x && this.state.enemy2[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy2Loc: prevState.enemy2Loc + 1}), () => {})
+    }
+
+    enemy2RightFirst = () => {
+        this.setState(prevState => ({ enemy2: [ {x: prevState.enemy2[0].x + 1 , y: prevState.enemy2[0].y} ] }), () => {
+            if (this.state.enemy2[0].x === this.state.cells[0].x && this.state.enemy2[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy2Loc: prevState.enemy2Loc + 1}), () => {})
+    }
+
+    enemy2RightSecond = () => {
+        this.setState(prevState => ({ enemy2: [ {x: prevState.enemy2[0].x + 1 , y: prevState.enemy2[0].y} ] }), () => {
+            if (this.state.enemy2[0].x === this.state.cells[0].x && this.state.enemy2[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy2Loc: prevState.enemy2Loc + 1}), () => {})
+    }
+
+    enemy2LeftFirst = () => {
+        this.setState(prevState => ({ enemy2: [ {x: prevState.enemy2[0].x - 1 , y: prevState.enemy2[0].y} ] }), () => {
+            if (this.state.enemy2[0].x === this.state.cells[0].x && this.state.enemy2[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy2Loc: prevState.enemy2Loc + 1}), () => {})
+    }
+
+    enemy2LeftSecond = () => {
+        this.setState(prevState => ({ enemy2: [ {x: prevState.enemy2[0].x - 1 , y: prevState.enemy2[0].y} ] }), () => {
+            if (this.state.enemy2[0].x === this.state.cells[0].x && this.state.enemy2[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy2Loc: prevState.enemy2Loc - 5}), () => {})
+    }
+
+    startEnemy2 = () => {
+        if (this.state.enemy2Loc === 0) {
+        this.enemy2DownFirst()
+         return
+        } if (this.state.enemy2Loc === 1) {
+         this.enemy2UpFirst()
+         return 
+        } if (this.state.enemy2Loc === 2) {
+         this.enemy2RightFirst()
+         return
+        } if (this.state.enemy2Loc === 3) {
+         this.enemy2RightSecond()
+         return
+        } if (this.state.enemy2Loc === 4) {
+         this.enemy2LeftFirst()
+         return
+        } if (this.state.enemy2Loc === 5) {
+         this.enemy2LeftSecond()
+         return
+        } else { return }
+    }
          // Basic Movement Methods for Player Char //
 
     moveSquareUp = () => {
@@ -94,6 +236,33 @@ class Game extends React.Component {
     moveSquareDiagDownRight = () => {
         this.setState( {cells: [{ x: this.state.cells[0].x + 1, y: this.state.cells[0].y + 1 }] }) 
     }
+        // Enemy / Damage / Score Methods //
+
+    treeMsg = () => {
+        this.setState( {message: 'You hit a tree!'} )
+    }
+
+    rockMsg = () => {
+        this.setState( {message: 'You hit a rock!'} )
+    }
+
+    treasureMsg = () => {
+        this.setState( {message: `Nice, you earned 50pts!`} )
+    }
+
+    noHealthDeath = (characterHP) => {
+        if (characterHP < 1) {
+            this.props.finishGame(this.state.points)
+        }
+    }
+
+    take20Dmg = () => {
+        this.setState(prevState => ( {characterHP: prevState.characterHP - 20} ), () => {
+        this.setState( {message: `Ouch, you lost 20HP! You have ${this.state.characterHP} / 100 HP`} )
+        this.noHealthDeath(this.state.characterHP)
+        })
+    }
+
 
         // Conditional Methods that direct response to
         // key presses (Basic)
@@ -102,10 +271,12 @@ class Game extends React.Component {
         let emptyObstacles = [];
         let emptyTreasures = [];
         let emptyRocks = [];
+        let enemy1array = [];
         let rocksList = this.state.rocks
         let obstaclesList = this.state.obstacles
         obstaclesList.forEach((obstacle) => {
             if (obstacle.x === this.state.cells[0].x && obstacle.y === this.state.cells[0].y - 1) {
+                this.treeMsg()
                 return true
             } else {
                 emptyObstacles.push(obstacle)           
@@ -113,20 +284,27 @@ class Game extends React.Component {
         })
         rocksList.forEach((rock) => {
             if (rock.x === this.state.cells[0].x && rock.y === this.state.cells[0].y - 1) {
-                console.log("you hit a rock up")
+                this.rockMsg()
                 return true
             } else {
                 emptyRocks.push(rock)
             }
         })
-        if (emptyObstacles.length > 58 && emptyRocks.length > 4) {
+        this.state.enemy1.forEach((enemy1) => {
+            if (enemy1.x === this.state.cells[0].x && enemy1.y === this.state.cells[0].y - 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy1array.push(enemy1)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0) {
             this.moveSquareUp()
         }
         this.state.treasures.forEach((treasure) => {
             if (treasure.x === this.state.cells[0].x && treasure.y === this.state.cells[0].y - 1) {
-                console.log('You hit a treasure up')
                 this.setState(prevState => ( {points: prevState.points + 50} ), () => {
-                console.log(`You earned 50pts! You have ${this.state.points} total pts`)
+                this.treasureMsg()
                 })
             } else {
                 emptyTreasures.push(treasure)
@@ -139,30 +317,39 @@ class Game extends React.Component {
         let emptyObstacles = [];
         let emptyTreasures = [];
         let emptyRocks = [];
+        let enemy1array = [];
         let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x && obstacle.y === this.state.cells[0].y + 1) {
-              return true
+                this.treeMsg()
+                return true
            } else {
             emptyObstacles.push(obstacle)           
            }
         })
         rocksList.forEach((rock) => {
             if (rock.x === this.state.cells[0].x && rock.y === this.state.cells[0].y + 1) {
-                console.log("you hit a rock down")
+                this.rockMsg()
                 return true
             } else {
                 emptyRocks.push(rock)
             }
         })
-        if (emptyObstacles.length > 58 && emptyRocks.length > 4) {
+        this.state.enemy1.forEach((enemy1) => {
+            if (enemy1.x === this.state.cells[0].x && enemy1.y === this.state.cells[0].y + 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy1array.push(enemy1)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0) {
             this.moveSquareDown()
         }
         this.state.treasures.forEach((treasure) => {
             if (treasure.x === this.state.cells[0].x && treasure.y === this.state.cells[0].y + 1) {
-                console.log('You hit a treasure down')
                 this.setState(prevState => ( {points: prevState.points + 50} ), () => {
-                console.log(`You earned 50pts! You have ${this.state.points} total pts`)
+                this.treasureMsg()
                 })
             } else {
                 emptyTreasures.push(treasure)
@@ -180,31 +367,39 @@ class Game extends React.Component {
         let emptyObstacles = [];
         let emptyTreasures = [];
         let emptyRocks = [];
+        let enemy1array = [];
         let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x - 1 && obstacle.y === this.state.cells[0].y) {
-            //   console.log("You hit an obstacle left")
-              return true
+                this.treeMsg()
+                return true
            } else {
             emptyObstacles.push(obstacle)           
            }
         })
         rocksList.forEach((rock) => {
             if (rock.x === this.state.cells[0].x - 1 && rock.y === this.state.cells[0].y) {
-                console.log("you hit a rock left")
+                this.rockMsg()
                 return true
             } else {
                 emptyRocks.push(rock)
             }
         })
-        if (emptyObstacles.length > 58 && emptyRocks.length > 4) {
+        this.state.enemy1.forEach((enemy1) => {
+            if (enemy1.x === this.state.cells[0].x - 1 && enemy1.y === this.state.cells[0].y) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy1array.push(enemy1)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0) {
             this.moveSquareLeft()
         }
         this.state.treasures.forEach((treasure) => {
             if (treasure.x === this.state.cells[0].x - 1 && treasure.y === this.state.cells[0].y) {
-                console.log('You hit a treasure left')
                 this.setState(prevState => ( {points: prevState.points + 50} ), () => {
-                console.log(`You earned 50pts! You have ${this.state.points} total pts`)
+                this.treasureMsg()
                 })
             } else {
                 emptyTreasures.push(treasure)
@@ -217,31 +412,39 @@ class Game extends React.Component {
         let emptyObstacles = [];
         let emptyTreasures = [];
         let emptyRocks = [];
+        let enemy1array = [];
         let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x + 1 && obstacle.y === this.state.cells[0].y) {
-            //   console.log("You hit an obstacle right")
-              return true
+                this.treeMsg()
+                return true
            } else {
             emptyObstacles.push(obstacle)           
            }
         })
         rocksList.forEach((rock) => {
             if (rock.x === this.state.cells[0].x + 1 && rock.y === this.state.cells[0].y) {
-                console.log("you hit a rock right")
+                this.rockMsg()
                 return true
             } else {
                 emptyRocks.push(rock)
             }
         })
-        if (emptyObstacles.length > 58 && emptyRocks.length > 4) {
+        this.state.enemy1.forEach((enemy1) => {
+            if (enemy1.x === this.state.cells[0].x + 1 && enemy1.y === this.state.cells[0].y) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy1array.push(enemy1)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0) {
             this.moveSquareRight()
         }
         this.state.treasures.forEach((treasure) => {
             if (treasure.x === this.state.cells[0].x + 1 && treasure.y === this.state.cells[0].y) {
-                console.log('You hit a treasure right')
                 this.setState(prevState => ( {points: prevState.points + 50} ), () => {
-                console.log(`You earned 50pts! You have ${this.state.points} total pts`)
+                this.treasureMsg()
                 })
             } else {
                 emptyTreasures.push(treasure)
@@ -262,30 +465,39 @@ class Game extends React.Component {
         let emptyObstacles = [];
         let emptyTreasures = [];
         let emptyRocks = [];
+        let enemy1array = [];
         let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x - 1 && obstacle.y === this.state.cells[0].y - 1) {
-              return true
+                this.treeMsg()
+                return true
            } else {
             emptyObstacles.push(obstacle)           
            }
         })
         rocksList.forEach((rock) => {
             if (rock.x === this.state.cells[0].x - 1 && rock.y === this.state.cells[0].y - 1) {
-                console.log("you hit a rock diag up left")
+                this.rockMsg()
                 return true
             } else {
                 emptyRocks.push(rock)
             }
         })
-        if (emptyObstacles.length > 58 && emptyRocks.length > 4) {
+        this.state.enemy1.forEach((enemy1) => {
+            if (enemy1.x === this.state.cells[0].x - 1 && enemy1.y === this.state.cells[0].y - 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy1array.push(enemy1)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0) {
             this.moveSquareDiagUpLeft()
         }
         this.state.treasures.forEach((treasure) => {
             if (treasure.x === this.state.cells[0].x - 1 && treasure.y === this.state.cells[0].y - 1) {
-                console.log('You hit a treasure diagonal up left')
                 this.setState(prevState => ( {points: prevState.points + 50} ), () => {
-                console.log(`You earned 50pts! You have ${this.state.points} total pts`)
+                this.treasureMsg()
                 })
             } else {
                 emptyTreasures.push(treasure)
@@ -298,30 +510,39 @@ class Game extends React.Component {
         let emptyObstacles = [];
         let emptyTreasures = [];
         let emptyRocks = [];
+        let enemy1array = [];
         let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x + 1 && obstacle.y === this.state.cells[0].y - 1) {
-              return true
+                this.treeMsg()
+                return true
            } else {
             emptyObstacles.push(obstacle)           
            }
         })
         rocksList.forEach((rock) => {
             if (rock.x === this.state.cells[0].x + 1 && rock.y === this.state.cells[0].y - 1) {
-                console.log("you hit a rock diag up right")
+                this.rockMsg()
                 return true
             } else {
                 emptyRocks.push(rock)
             }
         })
-        if (emptyObstacles.length > 58 && emptyRocks.length > 4) {
+        this.state.enemy1.forEach((enemy1) => {
+            if (enemy1.x === this.state.cells[0].x + 1 && enemy1.y === this.state.cells[0].y - 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy1array.push(enemy1)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0) {
             this.moveSquareDiagUpRight()
         }
         this.state.treasures.forEach((treasure) => {
             if (treasure.x === this.state.cells[0].x + 1 && treasure.y === this.state.cells[0].y - 1) {
-                console.log('You hit a treasure diagonal up right')
                 this.setState(prevState => ( {points: prevState.points + 50} ), () => {
-                console.log(`You earned 50pts! You have ${this.state.points} total pts`)
+                this.treasureMsg()
                 })
             } else {
                 emptyTreasures.push(treasure)
@@ -334,30 +555,39 @@ class Game extends React.Component {
         let emptyObstacles = [];
         let emptyTreasures = [];
         let emptyRocks = [];
+        let enemy1array = [];
         let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x - 1 && obstacle.y === this.state.cells[0].y + 1) {
-              return true
+                this.treeMsg()
+                return true
            } else {
             emptyObstacles.push(obstacle)           
            }
         })
         rocksList.forEach((rock) => {
             if (rock.x === this.state.cells[0].x - 1 && rock.y === this.state.cells[0].y + 1) {
-                console.log("you hit a rock diag down left")
+                this.rockMsg()
                 return true
             } else {
                 emptyRocks.push(rock)
             }
         })
-        if (emptyObstacles.length > 58 && emptyRocks.length > 4) {
+        this.state.enemy1.forEach((enemy1) => {
+            if (enemy1.x === this.state.cells[0].x - 1 && enemy1.y === this.state.cells[0].y + 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy1array.push(enemy1)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0) {
             this.moveSquareDiagDownLeft()
         }
         this.state.treasures.forEach((treasure) => {
             if (treasure.x === this.state.cells[0].x - 1 && treasure.y === this.state.cells[0].y + 1) {
-                console.log('You hit a treasure diagonal down left')
                 this.setState(prevState => ( {points: prevState.points + 50} ), () => {
-                console.log(`You earned 50pts! You have ${this.state.points} total pts`)
+                this.treasureMsg()
                 })
             } else {
                 emptyTreasures.push(treasure)
@@ -370,31 +600,39 @@ class Game extends React.Component {
         let emptyObstacles = [];
         let emptyTreasures = [];
         let emptyRocks = [];
+        let enemy1array = [];
         let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x + 1 && obstacle.y === this.state.cells[0].y + 1) {
-            //   console.log("You hit an obstacle in the diagonal down right corner")
-              return true
+                this.treeMsg()
+                return true
            } else {
             emptyObstacles.push(obstacle)           
            }
         })
         rocksList.forEach((rock) => {
             if (rock.x === this.state.cells[0].x + 1 && rock.y === this.state.cells[0].y + 1) {
-                console.log("you hit a rock diag down right")
+                this.rockMsg()
                 return true
             } else {
                 emptyRocks.push(rock)
             }
         })
-        if (emptyObstacles.length > 58 && emptyRocks.length > 4) {
+        this.state.enemy1.forEach((enemy1) => {
+            if (enemy1.x === this.state.cells[0].x + 1 && enemy1.y === this.state.cells[0].y + 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy1array.push(enemy1)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0) {
             this.moveSquareDiagDownRight()
         }
         this.state.treasures.forEach((treasure) => {
             if (treasure.x === this.state.cells[0].x + 1 && treasure.y === this.state.cells[0].y + 1) {
-                console.log('You hit a treasure diagonal down right')
                 this.setState(prevState => ( {points: prevState.points + 50} ), () => {
-                console.log(`You earned 50pts! You have ${this.state.points} total pts`)
+                this.treasureMsg()
                 })
             } else {
                 emptyTreasures.push(treasure)
@@ -403,7 +641,6 @@ class Game extends React.Component {
         this.setState({ treasures: emptyTreasures })
         this.state.exits.forEach((exit) => {
             if (exit.x === this.state.cells[0].x + 1 && exit.y === this.state.cells[0].y + 1) {
-                console.log('You hit the exit down')
                 this.props.finishGame(this.state.points)
             }
         })
@@ -474,27 +711,30 @@ class Game extends React.Component {
                     return
                 }
                 break;
+            case 'r':                             // DIAG DOWN RIGHT
+                this.enemy1UpRight(this.state.enemy1)
+                break;
                 default:
                     return
         }
     }
-
-
         // Map Render function //
 
     render() {
-        
-        const { cells, obstacles, rocks, treasures, exits } = this.state;  
+        const { cells, obstacles, rocks, treasures, exits, enemy1, enemy2 } = this.state;  
         return (
             <div>
                 <NavBar/>
-                <h2 className="MainQuote">May the Gods smile upon your Quest...</h2>
                 <div>
+                <h2 className="MainQuote">May the Gods smile upon your Quest...</h2>
                     <h3 className="CharacterName">
                         {this.state.characterName}
                     </h3>
+                    <h4 className="Message">
+                        {this.state.message}
+                    </h4>
                     <h4 className="HealthPoints">
-                        HP: {this.props.characterForm.hp} / 100
+                        HP: {this.state.characterHP} / 100
                     </h4><br></br><br></br>
                     <h4 className="ManaPoints">
                         Mana: {this.props.characterForm.mana} / 100
@@ -514,20 +754,20 @@ class Game extends React.Component {
                         <Rock x={rock.x} y={rock.y} key={`${rock.x},${rock.y}`}/>
                     ))}     
                     {cells.map(cell => (
-                        <Cell x={cell.x} y={cell.y} key={`${cell.x},${cell.y}`}/>
-                        
+                        <Cell x={cell.x} y={cell.y} key={`${cell.x},${cell.y}`}/> 
                     ))} 
                     {treasures.map(treasure => (
-                        <Treasure x={treasure.x} y={treasure.y} key={`${treasure.x},${treasure.y}`}/>
-                        
+                        <Treasure x={treasure.x} y={treasure.y} key={`${treasure.x},${treasure.y}`}/>   
                     ))} 
                      {exits.map(exit => (
-                        <Exit x={exit.x} y={exit.y} key={`${exit.x},${exit.y}`}/>
-                        
+                        <Exit x={exit.x} y={exit.y} key={`${exit.x},${exit.y}`}/>  
                     ))} 
-                </div>
-                <div>
-                    <button onClick={() => this.props.finishGame(this.state.points)}><div><Link to="/Scoreboard">End Game</Link></div></button>
+                     {enemy1.map(enemy1 => (
+                        <Enemy x={enemy1.x} y={enemy1.y} key={`${enemy1.x},${enemy1.y}`}/>  
+                    ))} 
+                    {enemy2.map(enemy2 => (
+                        <Enemy x={enemy2.x} y={enemy2.y} key={`${enemy2.x},${enemy2.y}`}/>  
+                    ))} 
                 </div>
             </div>
         );

@@ -23,6 +23,26 @@ class App extends React.Component {
       },
       charID: null
     }
+
+  // take20Dmg = () => {
+  //   this.setState(prevState => ({
+  //     points: prevState.points, highScores: prevState.highScores,
+  //     characters: prevState.characters, 
+  //       characterForm: {
+  //         name: prevState.name,
+  //         strength: prevState.strength,
+  //         hp: prevState.hp - 20,
+  //         mana: prevState.mana,
+  //         score: prevState.score,
+  //         user_id: prevState.user_id
+  //       },
+  //     charID: prevState.charID  
+  //     }), () => {
+  //     console.log(`Ouch! You have ${this.state.characterForm.hp} / 100 total HP`)
+  //     })
+  // }
+
+
   //fetch characters
   componentDidMount(){
       fetch('http://localhost:3000/characters')
@@ -130,7 +150,7 @@ class App extends React.Component {
             render={(props) => <StartScreen {...props} characterForm={this.state.characterForm} createNewCharacter={this.createNewCharacter} handleNewCharacter={this.handleNewCharacter}/>}
             />
             <Route exact path="/game" 
-            render={(props) => <Game {...props} characterName={this.state.characterForm.name} characterForm={this.state.characterForm} finishGame={this.finishGame} points={this.state.points} />}
+            render={(props) => <Game {...props} characterName={this.state.characterForm.name} characterForm={this.state.characterForm} finishGame={this.finishGame} points={this.state.points}/>}
             />
             <Route exact path="/scoreboard" 
              render={(props) => <ScoreBoard {...props} highScores={this.state.highScores} characterForm={this.state.characterForm} />}

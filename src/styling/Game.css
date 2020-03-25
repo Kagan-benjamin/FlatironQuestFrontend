@@ -2,6 +2,7 @@
     position: relative;
     margin: 0 auto;
     background-color: #ccc;
+    height: 2em;
     background-image:
         linear-gradient(#333 1px, transparent 1px),
         linear-gradient(90deg, #333 1px, transparent 1px);
@@ -38,6 +39,15 @@
     margin: 3px
 }
 
+.Message {
+    position: absolute;
+    left: 26em;
+    width: 300px;
+    padding: 3px;
+    margin: 3px;
+    text-align: center;
+}
+
 .Points {
     position: absolute;
     left: 0em;
@@ -58,6 +68,13 @@
     background-color: #ccc;
     position: absolute;
     background-position: right bottom;
+}
+
+.Enemy {
+    background-image: url("../artwork/Blue_Virus.png");
+    background-color: #ccc;
+    position: absolute;
+    background-position: center;
 }
 
 .Exit {
