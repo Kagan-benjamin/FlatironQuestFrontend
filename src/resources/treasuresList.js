@@ -1,6 +1,7 @@
 const treasuresList = [
     {x: 0, y: 1},
     {x: 1, y: 12},
+    {x: 2, y: 9},
     {x: 7, y: 4},
     {x: 7, y: 7},
     {x: 10, y: 0},

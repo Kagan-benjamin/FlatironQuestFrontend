@@ -12,7 +12,11 @@ import treasuresList from './resources/treasuresList.js'
 import exitsList from './resources/exitsList.js'
 import {enemy1} from './resources/enemyList1.js'
 import {enemy2} from './resources/enemyList1.js'
+import {enemy3} from './resources/enemyList1.js'
+import {enemy4} from './resources/enemyList1.js'
+import {enemy5} from './resources/enemyList1.js'
 import NavBar from './NavBar.js';
+
 
 // Specs for map + grid size, values below for wireframe map size
 const CELL_SIZE = 45; // 45
@@ -38,8 +42,14 @@ class Game extends React.Component {
         exits: exitsList,  
         enemy1: enemy1,
         enemy2: enemy2,
+        enemy3: enemy3,
+        enemy4: enemy4,
+        enemy5: enemy5,
         enemy1Loc: 0,
         enemy2Loc: 0,
+        enemy3Loc: 0,
+        enemy4Loc: 0,
+        enemy5Loc: 0,
         characterName: '',
         characterHP: 0,
         message: ''
@@ -51,13 +61,19 @@ class Game extends React.Component {
             points: this.props.points,
             characterHP: this.props.characterForm.hp
         })
-        this.interval1 = setInterval(this.startEnemy1, 1250)
-        this.interval2 = setInterval(this.startEnemy2, 1750)
+        this.interval1 = setInterval(this.startEnemy1, 1000)
+        this.interval2 = setInterval(this.startEnemy2, 1500)
+        this.interval3 = setInterval(this.startEnemy3, 750)
+        this.interval4 = setInterval(this.startEnemy4, 1000)
+        this.interval5 = setInterval(this.startEnemy5, 500)
     }
 
     componentWillUnmount(){
         clearInterval(this.interval1)
         clearInterval(this.interval2)
+        clearInterval(this.interval3)
+        clearInterval(this.interval4)
+        clearInterval(this.interval5)
     }
          //  Generates Underlying Grid  //
 
@@ -111,7 +127,7 @@ class Game extends React.Component {
 
     startEnemy1 = () => {
        if (this.state.enemy1Loc === 0) {
-       this.enemy1UpRightFirst()
+        this.enemy1UpRightFirst()
         return
        } if (this.state.enemy1Loc === 1) {
         this.enemy1DownLeftFirst()
@@ -203,6 +219,311 @@ class Game extends React.Component {
          return
         } else { return }
     }
+            // Enemy 3 Behavior //
+
+    enemy3DownFirst = () => {
+        this.setState(prevState => ({ enemy3: [ {x: prevState.enemy3[0].x , y: prevState.enemy3[0].y + 1} ] }), () => {
+            if (this.state.enemy3[0].x === this.state.cells[0].x && this.state.enemy3[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy3Loc: prevState.enemy3Loc + 1}), () => {})
+    }
+
+    enemy3LeftFirst = () => {
+        this.setState(prevState => ({ enemy3: [ {x: prevState.enemy3[0].x - 1 , y: prevState.enemy3[0].y} ] }), () => {
+            if (this.state.enemy3[0].x === this.state.cells[0].x && this.state.enemy3[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy3Loc: prevState.enemy3Loc + 1}), () => {})
+    }
+
+    enemy3DownLeftFirst = () => {
+        this.setState(prevState => ({ enemy3: [ {x: prevState.enemy3[0].x - 1 , y: prevState.enemy3[0].y + 1} ] }), () => {
+            if (this.state.enemy3[0].x === this.state.cells[0].x && this.state.enemy3[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy3Loc: prevState.enemy3Loc + 1}), () => {})
+    }
+
+    enemy3LeftSecond = () => {
+        this.setState(prevState => ({ enemy3: [ {x: prevState.enemy3[0].x - 1 , y: prevState.enemy3[0].y} ] }), () => {
+            if (this.state.enemy3[0].x === this.state.cells[0].x && this.state.enemy3[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy3Loc: prevState.enemy3Loc + 1}), () => {})
+    }
+
+    enemy3UpFirst = () => {
+        this.setState(prevState => ({ enemy3: [ {x: prevState.enemy3[0].x , y: prevState.enemy3[0].y - 1} ] }), () => {
+            if (this.state.enemy3[0].x === this.state.cells[0].x && this.state.enemy3[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy3Loc: prevState.enemy3Loc + 1}), () => {})
+    }
+
+    enemy3UpRightFirst = () => {
+        this.setState(prevState => ({ enemy3: [ {x: prevState.enemy3[0].x + 1, y: prevState.enemy3[0].y - 1} ] }), () => {
+            if (this.state.enemy3[0].x === this.state.cells[0].x && this.state.enemy3[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy3Loc: prevState.enemy3Loc + 1}), () => {})
+    }
+
+    enemy3DownRightFirst = () => {
+        this.setState(prevState => ({ enemy3: [ {x: prevState.enemy3[0].x + 1, y: prevState.enemy3[0].y + 1} ] }), () => {
+            if (this.state.enemy3[0].x === this.state.cells[0].x && this.state.enemy3[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy3Loc: prevState.enemy3Loc + 1}), () => {})
+    }
+
+    enemy3RightFirst = () => {
+        this.setState(prevState => ({ enemy3: [ {x: prevState.enemy3[0].x + 1 , y: prevState.enemy3[0].y} ] }), () => {
+            if (this.state.enemy3[0].x === this.state.cells[0].x && this.state.enemy3[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy3Loc: prevState.enemy3Loc + 1}), () => {})
+    }
+
+    enemy3UpSecond = () => {
+        this.setState(prevState => ({ enemy3: [ {x: prevState.enemy3[0].x , y: prevState.enemy3[0].y - 1} ] }), () => {
+            if (this.state.enemy3[0].x === this.state.cells[0].x && this.state.enemy3[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy3Loc: prevState.enemy3Loc - 8}), () => {})
+    }
+
+    startEnemy3 = () => {
+        if (this.state.enemy3Loc === 0) {
+            this.enemy3DownFirst()
+            return
+        } if (this.state.enemy3Loc === 1) {
+            this.enemy3LeftFirst()
+            return 
+        } if (this.state.enemy3Loc === 2) {
+            this.enemy3DownLeftFirst()
+            return
+        } if (this.state.enemy3Loc === 3) {
+            this.enemy3LeftSecond()
+             return
+        } if (this.state.enemy3Loc === 4) {                 
+            this.enemy3UpFirst()
+            return
+        } if (this.state.enemy3Loc === 5) {             
+            this.enemy3UpRightFirst()
+            return
+        } if (this.state.enemy3Loc === 6) {             
+            this.enemy3DownRightFirst()
+            return
+        } if (this.state.enemy3Loc === 7) {             
+            this.enemy3RightFirst()
+            return
+        } if (this.state.enemy3Loc === 8) {             
+            this.enemy3UpSecond()
+            return
+        } 
+        else { return }
+    }
+              // Enemy 4 Behavior //
+
+    enemy4LeftFirst = () => {
+        this.setState(prevState => ({ enemy4: [ {x: prevState.enemy4[0].x - 1 , y: prevState.enemy4[0].y} ] }), () => {
+            if (this.state.enemy4[0].x === this.state.cells[0].x && this.state.enemy4[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy4Loc: prevState.enemy4Loc + 1}), () => {})
+    }
+
+    enemy4DownLeftFirst = () => {
+        this.setState(prevState => ({ enemy4: [ {x: prevState.enemy4[0].x - 1 , y: prevState.enemy4[0].y + 1} ] }), () => {
+            if (this.state.enemy4[0].x === this.state.cells[0].x && this.state.enemy4[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy4Loc: prevState.enemy4Loc + 1}), () => {})
+    }
+
+    enemy4DownFirst = () => {
+        this.setState(prevState => ({ enemy4: [ {x: prevState.enemy4[0].x , y: prevState.enemy4[0].y + 1} ] }), () => {
+            if (this.state.enemy4[0].x === this.state.cells[0].x && this.state.enemy4[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy4Loc: prevState.enemy4Loc + 1}), () => {})
+    }
+
+    enemy4DownSecond = () => {
+        this.setState(prevState => ({ enemy4: [ {x: prevState.enemy4[0].x , y: prevState.enemy4[0].y + 1} ] }), () => {
+            if (this.state.enemy4[0].x === this.state.cells[0].x && this.state.enemy4[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy4Loc: prevState.enemy4Loc + 1}), () => {})
+    }
+
+    enemy4UpFirst = () => {
+        this.setState(prevState => ({ enemy4: [ {x: prevState.enemy4[0].x , y: prevState.enemy4[0].y - 1} ] }), () => {
+            if (this.state.enemy4[0].x === this.state.cells[0].x && this.state.enemy4[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy4Loc: prevState.enemy4Loc + 1}), () => {})
+    }
+
+    enemy4UpSecond = () => {
+        this.setState(prevState => ({ enemy4: [ {x: prevState.enemy4[0].x , y: prevState.enemy4[0].y - 1} ] }), () => {
+            if (this.state.enemy4[0].x === this.state.cells[0].x && this.state.enemy4[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy4Loc: prevState.enemy4Loc + 1}), () => {})
+    }
+
+    enemy4UpRightFirst = () => {
+        this.setState(prevState => ({ enemy4: [ {x: prevState.enemy4[0].x + 1 , y: prevState.enemy4[0].y - 1} ] }), () => {
+            if (this.state.enemy4[0].x === this.state.cells[0].x && this.state.enemy4[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy4Loc: prevState.enemy4Loc + 1}), () => {})
+    }
+
+    enemy4RightFirst = () => {
+        this.setState(prevState => ({ enemy4: [ {x: prevState.enemy4[0].x + 1 , y: prevState.enemy4[0].y} ] }), () => {
+            if (this.state.enemy4[0].x === this.state.cells[0].x && this.state.enemy4[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy4Loc: prevState.enemy4Loc - 7}), () => {})
+    }
+
+    startEnemy4 = () => {
+        if (this.state.enemy4Loc === 0) {
+            this.enemy4LeftFirst()
+            return
+        } if (this.state.enemy4Loc === 1) {
+            this.enemy4DownLeftFirst()
+            return 
+        } if (this.state.enemy4Loc === 2) {
+            this.enemy4DownFirst()
+            return
+        } if (this.state.enemy4Loc === 3) {
+            this.enemy4DownSecond()
+            return
+        } if (this.state.enemy4Loc === 4) {                 
+            this.enemy4UpFirst()
+            return
+        } if (this.state.enemy4Loc === 5) {             
+            this.enemy4UpSecond()
+            return
+        } if (this.state.enemy4Loc === 6) {             
+            this.enemy4UpRightFirst()
+            return
+        } if (this.state.enemy4Loc === 7) {             
+            this.enemy4RightFirst()
+            return
+        } else { return }
+    }
+            // Enemy 5 Behavior //
+
+    enemy5UpFirst = () => {
+        this.setState(prevState => ({ enemy5: [ {x: prevState.enemy5[0].x , y: prevState.enemy5[0].y - 1} ] }), () => {
+            if (this.state.enemy5[0].x === this.state.cells[0].x && this.state.enemy5[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy5Loc: prevState.enemy5Loc + 1}), () => {})
+    }
+
+    enemy5DownFirst = () => {
+        this.setState(prevState => ({ enemy5: [ {x: prevState.enemy5[0].x , y: prevState.enemy5[0].y + 1} ] }), () => {
+            if (this.state.enemy5[0].x === this.state.cells[0].x && this.state.enemy5[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy5Loc: prevState.enemy5Loc + 1}), () => {})
+    }
+
+    enemy5DownLeftFirst = () => {
+        this.setState(prevState => ({ enemy5: [ {x: prevState.enemy5[0].x - 1 , y: prevState.enemy5[0].y + 1} ] }), () => {
+            if (this.state.enemy5[0].x === this.state.cells[0].x && this.state.enemy5[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy5Loc: prevState.enemy5Loc + 1}), () => {})
+    }
+
+    enemy5DownLeftSecond = () => {
+        this.setState(prevState => ({ enemy5: [ {x: prevState.enemy5[0].x - 1 , y: prevState.enemy5[0].y + 1} ] }), () => {
+            if (this.state.enemy5[0].x === this.state.cells[0].x && this.state.enemy5[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy5Loc: prevState.enemy5Loc + 1}), () => {})
+    }
+
+    enemy5UpSecond = () => {
+        this.setState(prevState => ({ enemy5: [ {x: prevState.enemy5[0].x , y: prevState.enemy5[0].y - 1} ] }), () => {
+            if (this.state.enemy5[0].x === this.state.cells[0].x && this.state.enemy5[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy5Loc: prevState.enemy5Loc + 1}), () => {})
+    }
+
+    enemy5RightFirst = () => {
+        this.setState(prevState => ({ enemy5: [ {x: prevState.enemy5[0].x + 1 , y: prevState.enemy5[0].y} ] }), () => {
+            if (this.state.enemy5[0].x === this.state.cells[0].x && this.state.enemy5[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy5Loc: prevState.enemy5Loc + 1}), () => {})
+    }
+
+    enemy5UpRightFirst = () => {
+        this.setState(prevState => ({ enemy5: [ {x: prevState.enemy5[0].x + 1 , y: prevState.enemy5[0].y - 1} ] }), () => {
+            if (this.state.enemy5[0].x === this.state.cells[0].x && this.state.enemy5[0].y === this.state.cells[0].y) {
+                this.take20Dmg()
+            }
+        }) 
+        this.setState(prevState => ({ enemy5Loc: prevState.enemy5Loc - 6}), () => {})
+    }
+
+    startEnemy5 = () => {
+        if (this.state.enemy5Loc === 0) {
+            this.enemy5UpFirst()
+            return
+        } if (this.state.enemy5Loc === 1) {
+            this.enemy5DownFirst()
+            return 
+        } if (this.state.enemy5Loc === 2) {
+            this.enemy5DownLeftFirst()
+            return
+        } if (this.state.enemy5Loc === 3) {
+            this.enemy5DownLeftSecond()
+            return
+        } if (this.state.enemy5Loc === 4) {                 
+            this.enemy5UpSecond()
+            return
+        } if (this.state.enemy5Loc === 5) {             
+            this.enemy5RightFirst()
+            return
+        } if (this.state.enemy5Loc === 6) {             
+            this.enemy5UpRightFirst()
+            return
+        } else { return }
+    }
+
          // Basic Movement Methods for Player Char //
 
     moveSquareUp = () => {
@@ -272,6 +593,10 @@ class Game extends React.Component {
         let emptyTreasures = [];
         let emptyRocks = [];
         let enemy1array = [];
+        let enemy2array = [];
+        let enemy3array = [];
+        let enemy4array = [];
+        let enemy5array = [];
         let rocksList = this.state.rocks
         let obstaclesList = this.state.obstacles
         obstaclesList.forEach((obstacle) => {
@@ -298,7 +623,39 @@ class Game extends React.Component {
                 enemy1array.push(enemy1)
             }
         })
-        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0) {
+        this.state.enemy2.forEach((enemy2) => {
+            if (enemy2.x === this.state.cells[0].x && enemy2.y === this.state.cells[0].y - 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy2array.push(enemy2)
+            }
+        })
+        this.state.enemy3.forEach((enemy3) => {
+            if (enemy3.x === this.state.cells[0].x && enemy3.y === this.state.cells[0].y - 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy3array.push(enemy3)
+            }
+        })
+        this.state.enemy4.forEach((enemy4) => {
+            if (enemy4.x === this.state.cells[0].x && enemy4.y === this.state.cells[0].y - 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy4array.push(enemy4)
+            }
+        })
+        this.state.enemy5.forEach((enemy5) => {
+            if (enemy5.x === this.state.cells[0].x && enemy5.y === this.state.cells[0].y - 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy5array.push(enemy5)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0 && enemy2array.length > 0 && enemy3array.length > 0 && enemy4array.length > 0 && enemy5array.length > 0) {
             this.moveSquareUp()
         }
         this.state.treasures.forEach((treasure) => {
@@ -318,6 +675,10 @@ class Game extends React.Component {
         let emptyTreasures = [];
         let emptyRocks = [];
         let enemy1array = [];
+        let enemy2array = [];
+        let enemy3array = [];
+        let enemy4array = [];
+        let enemy5array = [];
         let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x && obstacle.y === this.state.cells[0].y + 1) {
@@ -343,7 +704,39 @@ class Game extends React.Component {
                 enemy1array.push(enemy1)
             }
         })
-        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0) {
+        this.state.enemy2.forEach((enemy2) => {
+            if (enemy2.x === this.state.cells[0].x && enemy2.y === this.state.cells[0].y + 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy2array.push(enemy2)
+            }
+        })
+        this.state.enemy3.forEach((enemy3) => {
+            if (enemy3.x === this.state.cells[0].x && enemy3.y === this.state.cells[0].y + 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy3array.push(enemy3)
+            }
+        })
+        this.state.enemy4.forEach((enemy4) => {
+            if (enemy4.x === this.state.cells[0].x && enemy4.y === this.state.cells[0].y + 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy4array.push(enemy4)
+            }
+        })
+        this.state.enemy5.forEach((enemy5) => {
+            if (enemy5.x === this.state.cells[0].x && enemy5.y === this.state.cells[0].y + 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy5array.push(enemy5)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0 && enemy2array.length > 0 && enemy3array.length > 0 && enemy4array.length > 0 && enemy5array.length > 0) {
             this.moveSquareDown()
         }
         this.state.treasures.forEach((treasure) => {
@@ -368,6 +761,10 @@ class Game extends React.Component {
         let emptyTreasures = [];
         let emptyRocks = [];
         let enemy1array = [];
+        let enemy2array = [];
+        let enemy3array = [];
+        let enemy4array = [];
+        let enemy5array = [];
         let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x - 1 && obstacle.y === this.state.cells[0].y) {
@@ -393,7 +790,39 @@ class Game extends React.Component {
                 enemy1array.push(enemy1)
             }
         })
-        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0) {
+        this.state.enemy2.forEach((enemy2) => {
+            if (enemy2.x === this.state.cells[0].x - 1 && enemy2.y === this.state.cells[0].y) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy2array.push(enemy2)
+            }
+        })
+        this.state.enemy3.forEach((enemy3) => {
+            if (enemy3.x === this.state.cells[0].x - 1 && enemy3.y === this.state.cells[0].y) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy3array.push(enemy3)
+            }
+        })
+        this.state.enemy4.forEach((enemy4) => {
+            if (enemy4.x === this.state.cells[0].x - 1 && enemy4.y === this.state.cells[0].y) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy4array.push(enemy4)
+            }
+        })
+        this.state.enemy5.forEach((enemy5) => {
+            if (enemy5.x === this.state.cells[0].x - 1 && enemy5.y === this.state.cells[0].y) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy5array.push(enemy5)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0 && enemy2array.length > 0 && enemy3array.length > 0 && enemy4array.length > 0 && enemy5array.length > 0) {
             this.moveSquareLeft()
         }
         this.state.treasures.forEach((treasure) => {
@@ -413,6 +842,10 @@ class Game extends React.Component {
         let emptyTreasures = [];
         let emptyRocks = [];
         let enemy1array = [];
+        let enemy2array = [];
+        let enemy3array = [];
+        let enemy4array = [];
+        let enemy5array = [];
         let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x + 1 && obstacle.y === this.state.cells[0].y) {
@@ -438,7 +871,39 @@ class Game extends React.Component {
                 enemy1array.push(enemy1)
             }
         })
-        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0) {
+        this.state.enemy2.forEach((enemy2) => {
+            if (enemy2.x === this.state.cells[0].x + 1 && enemy2.y === this.state.cells[0].y) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy2array.push(enemy2)
+            }
+        })
+        this.state.enemy3.forEach((enemy3) => {
+            if (enemy3.x === this.state.cells[0].x + 1 && enemy3.y === this.state.cells[0].y) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy3array.push(enemy3)
+            }
+        })
+        this.state.enemy4.forEach((enemy4) => {
+            if (enemy4.x === this.state.cells[0].x + 1 && enemy4.y === this.state.cells[0].y) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy4array.push(enemy4)
+            }
+        })
+        this.state.enemy5.forEach((enemy5) => {
+            if (enemy5.x === this.state.cells[0].x + 1 && enemy5.y === this.state.cells[0].y) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy5array.push(enemy5)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0 && enemy2array.length > 0 && enemy3array.length > 0 && enemy4array.length > 0 && enemy5array.length > 0) {
             this.moveSquareRight()
         }
         this.state.treasures.forEach((treasure) => {
@@ -466,6 +931,10 @@ class Game extends React.Component {
         let emptyTreasures = [];
         let emptyRocks = [];
         let enemy1array = [];
+        let enemy2array = [];
+        let enemy3array = [];
+        let enemy4array = [];
+        let enemy5array = [];
         let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x - 1 && obstacle.y === this.state.cells[0].y - 1) {
@@ -491,7 +960,39 @@ class Game extends React.Component {
                 enemy1array.push(enemy1)
             }
         })
-        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0) {
+        this.state.enemy2.forEach((enemy2) => {
+            if (enemy2.x === this.state.cells[0].x - 1 && enemy2.y === this.state.cells[0].y - 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy2array.push(enemy2)
+            }
+        })
+        this.state.enemy3.forEach((enemy3) => {
+            if (enemy3.x === this.state.cells[0].x - 1 && enemy3.y === this.state.cells[0].y - 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy3array.push(enemy3)
+            }
+        })
+        this.state.enemy4.forEach((enemy4) => {
+            if (enemy4.x === this.state.cells[0].x - 1 && enemy4.y === this.state.cells[0].y - 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy4array.push(enemy4)
+            }
+        })
+        this.state.enemy5.forEach((enemy5) => {
+            if (enemy5.x === this.state.cells[0].x - 1 && enemy5.y === this.state.cells[0].y - 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy5array.push(enemy5)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0 && enemy2array.length > 0 && enemy3array.length > 0 && enemy4array.length > 0 && enemy5array.length > 0) {
             this.moveSquareDiagUpLeft()
         }
         this.state.treasures.forEach((treasure) => {
@@ -511,6 +1012,10 @@ class Game extends React.Component {
         let emptyTreasures = [];
         let emptyRocks = [];
         let enemy1array = [];
+        let enemy2array = [];
+        let enemy3array = [];
+        let enemy4array = [];
+        let enemy5array = [];
         let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x + 1 && obstacle.y === this.state.cells[0].y - 1) {
@@ -536,7 +1041,39 @@ class Game extends React.Component {
                 enemy1array.push(enemy1)
             }
         })
-        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0) {
+        this.state.enemy2.forEach((enemy2) => {
+            if (enemy2.x === this.state.cells[0].x + 1 && enemy2.y === this.state.cells[0].y - 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy2array.push(enemy2)
+            }
+        })
+        this.state.enemy3.forEach((enemy3) => {
+            if (enemy3.x === this.state.cells[0].x + 1 && enemy3.y === this.state.cells[0].y - 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy3array.push(enemy3)
+            }
+        })
+        this.state.enemy4.forEach((enemy4) => {
+            if (enemy4.x === this.state.cells[0].x + 1 && enemy4.y === this.state.cells[0].y - 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy4array.push(enemy4)
+            }
+        })
+        this.state.enemy5.forEach((enemy5) => {
+            if (enemy5.x === this.state.cells[0].x + 1 && enemy5.y === this.state.cells[0].y - 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy5array.push(enemy5)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0 && enemy2array.length > 0 && enemy3array.length > 0 && enemy4array.length > 0 && enemy5array.length > 0) {
             this.moveSquareDiagUpRight()
         }
         this.state.treasures.forEach((treasure) => {
@@ -556,6 +1093,10 @@ class Game extends React.Component {
         let emptyTreasures = [];
         let emptyRocks = [];
         let enemy1array = [];
+        let enemy2array = [];
+        let enemy3array = [];
+        let enemy4array = [];
+        let enemy5array = [];
         let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x - 1 && obstacle.y === this.state.cells[0].y + 1) {
@@ -581,7 +1122,39 @@ class Game extends React.Component {
                 enemy1array.push(enemy1)
             }
         })
-        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0) {
+        this.state.enemy2.forEach((enemy2) => {
+            if (enemy2.x === this.state.cells[0].x - 1 && enemy2.y === this.state.cells[0].y + 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy2array.push(enemy2)
+            }
+        })
+        this.state.enemy3.forEach((enemy3) => {
+            if (enemy3.x === this.state.cells[0].x - 1 && enemy3.y === this.state.cells[0].y + 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy3array.push(enemy3)
+            }
+        })
+        this.state.enemy4.forEach((enemy4) => {
+            if (enemy4.x === this.state.cells[0].x - 1 && enemy4.y === this.state.cells[0].y + 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy4array.push(enemy4)
+            }
+        })
+        this.state.enemy5.forEach((enemy5) => {
+            if (enemy5.x === this.state.cells[0].x - 1 && enemy5.y === this.state.cells[0].y + 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy5array.push(enemy5)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0 && enemy2array.length > 0 && enemy3array.length > 0 && enemy4array.length > 0 && enemy5array.length > 0) {
             this.moveSquareDiagDownLeft()
         }
         this.state.treasures.forEach((treasure) => {
@@ -601,6 +1174,10 @@ class Game extends React.Component {
         let emptyTreasures = [];
         let emptyRocks = [];
         let enemy1array = [];
+        let enemy2array = [];
+        let enemy3array = [];
+        let enemy4array = [];
+        let enemy5array = [];
         let rocksList = this.state.rocks
         this.state.obstacles.forEach((obstacle) => {
            if (obstacle.x === this.state.cells[0].x + 1 && obstacle.y === this.state.cells[0].y + 1) {
@@ -626,7 +1203,39 @@ class Game extends React.Component {
                 enemy1array.push(enemy1)
             }
         })
-        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0) {
+        this.state.enemy2.forEach((enemy2) => {
+            if (enemy2.x === this.state.cells[0].x + 1 && enemy2.y === this.state.cells[0].y + 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy2array.push(enemy2)
+            }
+        })
+        this.state.enemy3.forEach((enemy3) => {
+            if (enemy3.x === this.state.cells[0].x + 1 && enemy3.y === this.state.cells[0].y + 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy3array.push(enemy3)
+            }
+        })
+        this.state.enemy4.forEach((enemy4) => {
+            if (enemy4.x === this.state.cells[0].x + 1 && enemy4.y === this.state.cells[0].y + 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy4array.push(enemy4)
+            }
+        })
+        this.state.enemy5.forEach((enemy5) => {
+            if (enemy5.x === this.state.cells[0].x + 1 && enemy5.y === this.state.cells[0].y + 1) {
+                this.take20Dmg()
+                return true
+            } else {
+                enemy5array.push(enemy5)
+            }
+        })
+        if (emptyObstacles.length > 58 && emptyRocks.length > 4 && enemy1array.length > 0 && enemy2array.length > 0 && enemy3array.length > 0 && enemy4array.length > 0 && enemy5array.length > 0) {
             this.moveSquareDiagDownRight()
         }
         this.state.treasures.forEach((treasure) => {
@@ -721,14 +1330,14 @@ class Game extends React.Component {
         // Map Render function //
 
     render() {
-        const { cells, obstacles, rocks, treasures, exits, enemy1, enemy2 } = this.state;  
+        const { cells, obstacles, rocks, treasures, exits, enemy1, enemy2, enemy3, enemy4, enemy5 } = this.state;  
         return (
             <div>
                 <NavBar/>
                 <div>
-                <h2 className="MainQuote">May the Gods smile upon your Quest...</h2>
+                <h2 className="MainQuote">Corona Quest - Please click the grid to begin</h2>
                     <h3 className="CharacterName">
-                        {this.state.characterName}
+                        Good Luck, {this.state.characterName}
                     </h3>
                     <h4 className="Message">
                         {this.state.message}
@@ -767,6 +1376,15 @@ class Game extends React.Component {
                     ))} 
                     {enemy2.map(enemy2 => (
                         <Enemy x={enemy2.x} y={enemy2.y} key={`${enemy2.x},${enemy2.y}`}/>  
+                    ))} 
+                    {enemy3.map(enemy3 => (
+                        <Enemy x={enemy3.x} y={enemy3.y} key={`${enemy3.x},${enemy3.y}`}/>  
+                    ))} 
+                    {enemy4.map(enemy4 => (
+                        <Enemy x={enemy4.x} y={enemy4.y} key={`${enemy4.x},${enemy4.y}`}/>  
+                    ))} 
+                    {enemy5.map(enemy5 => (
+                        <Enemy x={enemy5.x} y={enemy5.y} key={`${enemy5.x},${enemy5.y}`}/>  
                     ))} 
                 </div>
             </div>
