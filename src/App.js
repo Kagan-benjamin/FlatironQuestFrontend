@@ -45,7 +45,7 @@ class App extends React.Component {
 
   //fetch characters
   componentDidMount(){
-      fetch('http://localhost:3000/characters')
+      fetch('http://localhost:3004/characters')
       .then(resp => resp.json())
       .then(characters => {
           this.setState({
@@ -96,14 +96,14 @@ class App extends React.Component {
       characterForm: {...this.state.characterForm, score: points}
     }, () => {
       console.log(this.state.characterForm)
-      fetch('http://localhost:3000/characters', {
+      fetch('http://localhost:3004/characters', {
             method: "POST", 
             headers: {
                 'Content-Type': 'application/json'
             }, 
             body: JSON.stringify(this.state.characterForm)}, 
               () => {
-                fetch('http://localhost:3000/characters')
+                fetch('http://localhost:3004/characters')
                   .then(resp => resp.json())
                   .then(characters => {
                     console.log(characters)
